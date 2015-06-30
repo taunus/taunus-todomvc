@@ -1,0 +1,43 @@
+{
+  "name": "taunus-gradual-skyrocket",
+  "version": "1.0.0",
+  "description": "Taunus + Gradual + SkyRocket",
+  "main": "app.js",
+  "scripts": {
+    "start": "npm run prepare && node app.js",
+    "dev": "npm run prepare && (npm run nodemon & npm run watch)",
+    "prepare": "npm run clean && npm run views && npm run scripts && npm run styles",
+    "clean": "rm -rf .bin",
+    "views": "hoganator --outputdir .bin views/*.html views/**/*.html",
+    "scripts": "mkdir -p .bin/public/js && taunus -o && browserify client/js/main.js -do .bin/public/js/all.js",
+    "styles": "mkdir -p .bin/public/css && cp node_modules/todomvc-common/base.css .bin/public/css/base.css && cp node_modules/todomvc-app-css/index.css .bin/public/css/index.css",
+    "nodemon": "nodemon app.js --watch controllers --watch services --watch .bin/views --ignore client",
+    "watch": "watchify client/js/main.js -o .bin/public/js/all.js -p errorify --debug --verbose & chokidar 'views/**/*.html' -c 'npm run views'",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "JC Ivancevich <jc.ivancevich@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.13.1",
+    "browserify": "^10.2.4",
+    "dominus": "^5.0.0",
+    "express": "^4.13.0",
+    "gradual": "^1.0.0",
+    "hoganator": "^1.0.1",
+    "serve-static": "^1.10.0",
+    "skyrocket": "^1.0.0",
+    "socket.io": "^1.3.5",
+    "socket.io-client": "^1.3.5",
+    "superagent": "^1.2.0",
+    "taunus": "^6.1.6",
+    "taunus-express": "^3.0.0",
+    "todomvc-app-css": "^2.0.1",
+    "todomvc-common": "^1.0.2"
+  },
+  "devDependencies": {
+    "chokidar-cli": "^0.3.0",
+    "errorify": "^0.2.4",
+    "nodemon": "^1.3.7",
+    "watchify": "^3.2.3"
+  }
+}
