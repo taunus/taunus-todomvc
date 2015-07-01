@@ -5,11 +5,12 @@ var todosService = require('./services/todos');
 function setup(app) {
   var socket = require('./realtime')();
   app.post('/api/todo', createTodo);
-  app.post('/api/todo/:id/complete', completeTodo);
   app.post('/api/todo/:id/remove', removeTodo);
+  app.post('/api/todo/:id/complete', completeTodo);
   app.post('/api/todo/clear-completed', clearCompletedTodos);
+  app.post('/api/todo/mark-all-completed', markAllTodosCompleted);
 
-  function createTodo(req, res, next) {
+  function createTodo (req, res, next) {
     todosService.add(req.body, handler);
 
     function handler(err, todo) {
@@ -37,7 +38,25 @@ function setup(app) {
     }
   }
 
-  function completeTodo(req, res, next) {
+  function removeTodo (req, res, next) {
+    todosService.remove(req.params.id, handler);
+
+    function handler(err, todo) {
+      if (err) {
+        return next(err);
+      }
+
+      res.viewModel = {
+        model: todo
+      };
+
+      taunus.redirect(req, res, '', {
+        force: true
+      });
+    }
+  }
+
+  function completeTodo (req, res, next) {
     var todo = {
       id: req.params.id,
       completed: !!req.body.completed
@@ -59,16 +78,16 @@ function setup(app) {
     }
   }
 
-  function removeTodo(req, res, next) {
-    todosService.remove(req.params.id, handler);
+  function clearCompletedTodos (req, res, next) {
+    todosService.clearCompleted(handler);
 
-    function handler(err, todo) {
+    function handler(err, todos) {
       if (err) {
         return next(err);
       }
 
       res.viewModel = {
-        model: todo
+        model: todos
       };
 
       taunus.redirect(req, res, '', {
@@ -77,8 +96,8 @@ function setup(app) {
     }
   }
 
-  function clearCompletedTodos(req, res, next) {
-    todosService.clearCompleted(handler);
+  function markAllTodosCompleted (req, res, next) {
+    todosService.markAllCompleted(handler);
 
     function handler(err, todos) {
       if (err) {

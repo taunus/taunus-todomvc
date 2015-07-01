@@ -56,11 +56,19 @@ function clearCompleted (callback) {
   callback(null, _todos);
 }
 
+function markAllCompleted (callback) {
+  Object.keys(_todos).forEach(function (key) {
+    _todos[key].completed = true;
+  });
+  callback(null, _todos);
+}
+
 module.exports = {
+  add: add,
   getAll: getAll,
   getOne: getOne,
-  add: add,
-  complete: complete,
   remove: remove,
-  clearCompleted: clearCompleted
+  complete: complete,
+  clearCompleted: clearCompleted,
+  markAllCompleted: markAllCompleted
 };

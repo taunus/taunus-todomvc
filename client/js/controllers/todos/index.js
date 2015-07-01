@@ -6,19 +6,16 @@ var realtime = require('../../services/realtime');
 
 module.exports = function (model, container, route) {
   realtime(model, container);
-  handleTodosUpdate(container);
+  handleTogglesChange(container);
 };
 
-function handleTodosUpdate(container) {
-  var forms = $.find('.form-update-todo', container);
+function handleTogglesChange (container) {
+  var forms = $.find('.form-update-todo', container).concat($.find('.form-mark-all-completed', container));
   forms.forEach(function (form) {
-    var checkbox = $('input[name=completed]', form);
-    checkbox.on('change', submitUpdate);
+    $('input[type=checkbox]', form).on('change', submitUpdate);
 
-    function submitUpdate() {
-      gradual.submit({
-        form: form
-      });
+    function submitUpdate () {
+      gradual.submit({ form: form });
     }
   });
 }
