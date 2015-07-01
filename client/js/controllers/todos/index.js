@@ -12,9 +12,9 @@ module.exports = function (model, container, route) {
 function handleTogglesChange (container) {
   var forms = $.find('.form-update-todo', container).concat($.find('.form-mark-all-completed', container));
   forms.forEach(function (form) {
-    $('input[type=checkbox]', form).on('change', submitUpdate);
+    $('input[type=checkbox]', form).on('change', submit);
 
-    function submitUpdate () {
+    function submit () {
       gradual.submit({ form: form });
     }
   });
