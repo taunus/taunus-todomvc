@@ -2,15 +2,16 @@
 
 var taunus = require('taunus');
 var skyrocket = require('skyrocket');
+var $ = require('dominus');
 
 function realtime (model, container) {
   var rocket = skyrocket.scope(container, model);
   var options = {
     applyChanges: function (model, update) {
-      taunus.navigate('/search/' + update.search);
+      // TODO
     }
   };
-  rocket.on('/api/search', options, function reaction (update) {});
+  rocket.on('/api/todo', options, function reaction (update) {});
 }
 
 module.exports = realtime;

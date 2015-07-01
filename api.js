@@ -2,27 +2,96 @@
 var taunus = require('taunus');
 var todosService = require('./services/todos');
 
-function setup (app) {
+function setup(app) {
   var socket = require('./realtime')();
   app.post('/api/todo', createTodo);
+  app.post('/api/todo/:id/complete', completeTodo);
+  app.post('/api/todo/:id/remove', removeTodo);
+  app.post('/api/todo/clear-completed', clearCompletedTodos);
 
-  function createTodo (req, res, next) {
-    todosService.add(req.body, addHandler);
+  function createTodo(req, res, next) {
+    todosService.add(req.body, handler);
 
-    function addHandler (err, todo) {
-      var room = '/api/todo';
-      var data = {
-        updates: [{
-          rooms: [room],
-          operations: [{
-            concern: 'todos',
-            op: 'push',
-            model: todo
-          }]
-        }]
+    function handler(err, todo) {
+      if (err) {
+        return next(err);
+      }
+
+      res.viewModel = {
+        model: todo
       };
-      socket.to(room).emit('/skyrocket/update', data);
-      res.status(201).json(data);
+
+      // var room = '/api/todo';
+      // socket.to(room).emit('/skyrocket/update', {
+      //   updates: [{
+      //     rooms: [room],
+      //     concern: 'todos',
+      //     op: 'push',
+      //     model: todo
+      //   }]
+      // });
+
+      taunus.redirect(req, res, '', {
+        force: true
+      });
+    }
+  }
+
+  function completeTodo(req, res, next) {
+    var todo = {
+      id: req.params.id,
+      completed: !!req.body.completed
+    };
+    todosService.complete(todo, handler);
+
+    function handler(err, todo) {
+      if (err) {
+        return next(err);
+      }
+
+      res.viewModel = {
+        model: todo
+      };
+
+      taunus.redirect(req, res, '', {
+        force: true
+      });
+    }
+  }
+
+  function removeTodo(req, res, next) {
+    todosService.remove(req.params.id, handler);
+
+    function handler(err, todo) {
+      if (err) {
+        return next(err);
+      }
+
+      res.viewModel = {
+        model: todo
+      };
+
+      taunus.redirect(req, res, '', {
+        force: true
+      });
+    }
+  }
+
+  function clearCompletedTodos(req, res, next) {
+    todosService.clearCompleted(handler);
+
+    function handler(err, todos) {
+      if (err) {
+        return next(err);
+      }
+
+      res.viewModel = {
+        model: todos
+      };
+
+      taunus.redirect(req, res, '', {
+        force: true
+      });
     }
   }
 }

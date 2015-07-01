@@ -7,7 +7,7 @@ var _todos = {
   },
   '2': {
     id: 2,
-    title: 'Taste JavaScript',
+    title: 'Buy a Unicorn',
     completed: false
   }
 };
@@ -30,10 +30,10 @@ function add (todo, callback) {
   callback(null, todo);
 }
 
-function update (todo, callback) {
+function complete (todo, callback) {
   if (!_todos[todo.id]) { return callback(new Error('not_found')); }
-  _todos[todo.id] = todo;
-  callback(null, todo);
+  _todos[todo.id].completed = todo.completed;
+  callback(null, _todos[todo.id]);
 }
 
 function remove (id, callback) {
@@ -43,10 +43,24 @@ function remove (id, callback) {
   callback(null, removedTodo);
 }
 
+function clearCompleted (callback) {
+  var todos = {};
+  Object.keys(_todos).map(function (key) {
+    return _todos[key];
+  }).filter(function (todo) {
+    return !todo.completed;
+  }).forEach(function (todo) {
+    todos[todo.id] = todo;
+  });
+  _todos = todos;
+  callback(null, _todos);
+}
+
 module.exports = {
   getAll: getAll,
   getOne: getOne,
   add: add,
-  update: update,
-  remove: remove
+  complete: complete,
+  remove: remove,
+  clearCompleted: clearCompleted
 };

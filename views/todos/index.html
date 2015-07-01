@@ -15,9 +15,13 @@
       {{#todos}}
       <li {{#completed}}class="completed"{{/completed}}>
         <div class="view">
-          <input class="toggle" type="checkbox" {{#completed}}checked{{/completed}}>
+          <form class="form-update-todo" action="/api/todo/{{ id }}/complete" method="post">
+            <input name="completed" class="toggle" type="checkbox" {{#completed}}checked{{/completed}}>
+          </form>
           <label>{{ title }}</label>
-          <button class="destroy"></button>
+          <form class="form-remove-todo" action="/api/todo/{{ id }}/remove" method="post">
+            <button class="destroy"></button>
+          </form>
         </div>
         <input class="edit" value="{{ title }}">
       </li>
@@ -41,7 +45,9 @@
       </li>
     </ul>
     <!-- Hidden if no completed items are left ↓ -->
-    <button class="clear-completed">Clear completed</button>
+    <form class="form-clear-todos" action="/api/todo/clear-completed" method="post">
+      <button class="clear-completed">Clear completed</button>
+    </form>
   </footer>
 </section>
 <footer class="info">
