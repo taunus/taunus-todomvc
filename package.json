@@ -1,7 +1,7 @@
 {
-  "name": "taunus-gradual-skyrocket",
+  "name": "taunus-todomvc",
   "version": "1.0.0",
-  "description": "Taunus + Gradual + SkyRocket",
+  "description": "Taunus TodoMVC",
   "main": "app.js",
   "scripts": {
     "start": "npm run prepare && node app.js",
