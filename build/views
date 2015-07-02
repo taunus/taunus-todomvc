@@ -1,0 +1,2 @@
+#!/bin/bash
+hoganator --outputdir .bin views/*.html views/**/*.html

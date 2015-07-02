@@ -1,0 +1,6 @@
+#!/bin/bash
+build/prepare && (
+  nodemon app.js --watch app.js --watch api.js --watch controllers --watch services --watch .bin/views --ignore client &
+  watchify client/js/main.js -o .bin/public/js/all.js -p errorify --debug --verbose &
+  chokidar 'views/**/*.html' -c 'build/views'
+)

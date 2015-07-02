@@ -4,15 +4,8 @@
   "description": "Taunus TodoMVC",
   "main": "app.js",
   "scripts": {
-    "start": "npm run prepare && node app.js",
-    "dev": "npm run prepare && (npm run nodemon & npm run watch)",
-    "prepare": "npm run clean && npm run views && npm run scripts && npm run styles",
-    "clean": "rm -rf .bin",
-    "views": "hoganator --outputdir .bin views/*.html views/**/*.html",
-    "scripts": "mkdir -p .bin/public/js && taunus -o && browserify client/js/main.js -do .bin/public/js/all.js",
-    "styles": "mkdir -p .bin/public/css && cp node_modules/todomvc-common/base.css .bin/public/css/base.css && cp node_modules/todomvc-app-css/index.css .bin/public/css/index.css",
-    "nodemon": "nodemon app.js --watch app.js --watch api.js --watch controllers --watch services --watch .bin/views --ignore client",
-    "watch": "watchify client/js/main.js -o .bin/public/js/all.js -p errorify --debug --verbose & chokidar 'views/**/*.html' -c 'npm run views'",
+    "start": "build/prepare && node app.js",
+    "dev": "build/development",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "JC Ivancevich <jc.ivancevich@gmail.com>",

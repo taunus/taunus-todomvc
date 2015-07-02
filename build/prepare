@@ -1,0 +1,5 @@
+#!/bin/bash
+rm -rf .bin
+build/views
+mkdir -p .bin/public/js && taunus -o && browserify client/js/main.js -do .bin/public/js/all.js
+mkdir -p .bin/public/css && cp node_modules/todomvc-common/base.css .bin/public/css/base.css && cp node_modules/todomvc-app-css/index.css .bin/public/css/index.css
