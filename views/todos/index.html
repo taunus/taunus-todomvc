@@ -17,7 +17,7 @@
       {{#todos}}
       <li {{#completed}}class="completed"{{/completed}}>
         <div class="view">
-          <form class="form-update-todo" action="/api/todo/{{ id }}/complete" method="post">
+          <form class="form-complete-todo" action="/api/todo/{{ id }}/complete" method="post">
             <input name="completed" class="toggle" type="checkbox" {{#completed}}checked{{/completed}}>
           </form>
           <label>{{ title }}</label>
@@ -25,7 +25,9 @@
             <button class="destroy"></button>
           </form>
         </div>
-        <input class="edit" value="{{ title }}">
+        <form class="form-edit-todo" action="/api/todo/{{ id }}/edit" method="post">
+          <input name="title" class="edit" value="{{ title }}">
+        </form>
       </li>
       {{/todos}}
     </ul>

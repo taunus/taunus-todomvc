@@ -5,6 +5,7 @@ var todosService = require('./services/todos');
 function setup(app) {
   var socket = require('./realtime')();
   app.post('/api/todo', createTodo);
+  app.post('/api/todo/:id/edit', editTodo);
   app.post('/api/todo/:id/remove', removeTodo);
   app.post('/api/todo/:id/complete', completeTodo);
   app.post('/api/todo/clear-completed', clearCompletedTodos);
@@ -31,6 +32,28 @@ function setup(app) {
       //     model: todo
       //   }]
       // });
+
+      taunus.redirect(req, res, '', {
+        force: true
+      });
+    }
+  }
+
+  function editTodo (req, res, next) {
+    var todo = {
+      id: req.params.id,
+      title: req.body.title
+    };
+    todosService.edit(todo, handler);
+
+    function handler(err, todo) {
+      if (err) {
+        return next(err);
+      }
+
+      res.viewModel = {
+        model: todo
+      };
 
       taunus.redirect(req, res, '', {
         force: true

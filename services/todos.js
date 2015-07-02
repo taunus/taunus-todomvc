@@ -30,6 +30,12 @@ function add (todo, callback) {
   callback(null, todo);
 }
 
+function edit (todo, callback) {
+  if (!_todos[todo.id]) { return callback(new Error('not_found')); }
+  _todos[todo.id].title = todo.title;
+  callback(null, _todos[todo.id]);
+}
+
 function complete (todo, callback) {
   if (!_todos[todo.id]) { return callback(new Error('not_found')); }
   _todos[todo.id].completed = todo.completed;
@@ -65,6 +71,7 @@ function markAllCompleted (callback) {
 
 module.exports = {
   add: add,
+  edit: edit,
   getAll: getAll,
   getOne: getOne,
   remove: remove,
