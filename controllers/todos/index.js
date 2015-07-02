@@ -6,11 +6,13 @@ module.exports = function (req, res, next) {
   todosService.getAll(getAllHandler);
 
   function getAllHandler (err, todos) {
+    var activeTodos = todos.filter(function (todo) {
+      return !todo.completed;
+    });
+
     switch (currentPath) {
       case 'active':
-        todos = todos.filter(function (todo) {
-          return !todo.completed;
-        });
+        todos = activeTodos;
         break;
       case 'completed':
         todos = todos.filter(function (todo) {
@@ -23,6 +25,7 @@ module.exports = function (req, res, next) {
         all: currentPath === '',
         active: currentPath === 'active',
         completed: currentPath === 'completed',
+        todosLeft: activeTodos.length,
         todos: todos
       }
     };
