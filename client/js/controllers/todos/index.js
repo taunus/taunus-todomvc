@@ -4,16 +4,33 @@ var $ = require('dominus');
 var gradual = require('gradual');
 var realtime = require('../../services/realtime');
 
+$.custom('esc', 'keyup', function (e) {
+  return e.keyCode === 27;
+});
+
 module.exports = function (model, container, route) {
   realtime(model, container);
   handleEditing(container);
 };
 
 function handleEditing (container) {
-  $.find('.todo-list > li', container).on('dblclick', function (event) {
-    // TODO: should get element from `event.currentTarget` but it's `null`
-    var li = $(event.target).parents('li').addClass('editing');
-    var input = $.findOne('input.edit', li).focus();
-    // TODO: cancel edition on ESC or click outside
-  });
+  $('html').on('click', onClickOutside);
+  var todos = $('.todo-list > li', container).on('dblclick', onDoubleClick);
+
+  function onClickOutside (event) {
+    todos.forEach(function (li) {
+      $(li).removeClass('editing');
+    });
+  }
+
+  function onDoubleClick (event) {
+    event.stopPropagation();
+    var li = $(this).off('dblclick').addClass('editing');
+    var input = $.findOne('input.edit', li);
+    $(input).focus().on('esc', onEsc);
+
+    function onEsc () {
+      li.removeClass('editing');
+    }
+  }
 }
