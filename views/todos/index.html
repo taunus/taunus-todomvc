@@ -7,8 +7,8 @@
   </header>
   <!-- This section should be hidden by default and shown when there are todos -->
   <section class="main">
-    <form class="form-mark-all-completed" action="/api/todo/mark-all-completed" method="post">
-      <input class="toggle-all" type="checkbox">
+    <form action="/api/todo/mark-all-completed" method="post">
+      <button class="toggle-all"></button>
       <label for="toggle-all">Mark all as complete</label>
     </form>
     <ul class="todo-list">
@@ -17,15 +17,16 @@
       {{#todos}}
       <li {{#completed}}class="completed"{{/completed}}>
         <div class="view">
-          <form class="form-complete-todo" action="/api/todo/{{ id }}/complete" method="post">
-            <input name="completed" class="toggle" type="checkbox" {{#completed}}checked{{/completed}}>
+          <form action="/api/todo/{{ id }}/complete" method="post">
+            <input name="completed" value="{{ completed }}" type="hidden">
+            <button class="toggle {{#completed}}checked{{/completed}}"></button>
           </form>
           <label>{{ title }}</label>
-          <form class="form-remove-todo" action="/api/todo/{{ id }}/remove" method="post">
+          <form action="/api/todo/{{ id }}/remove" method="post">
             <button class="destroy"></button>
           </form>
         </div>
-        <form class="form-edit-todo" action="/api/todo/{{ id }}/edit" method="post">
+        <form action="/api/todo/{{ id }}/edit" method="post">
           <input name="title" class="edit" value="{{ title }}">
         </form>
       </li>
@@ -35,7 +36,7 @@
   <!-- This footer should hidden by default and shown when there are todos -->
   <footer class="footer">
     <!-- This should be `0 items left` by default -->
-    <span class="todo-count"><strong>{{ todosLeft }}</strong> item left</span>
+    <span class="todo-count"><strong>{{ activeTodosCount }}</strong> item left</span>
     <!-- Remove this if you don't implement routing -->
     <ul class="filters">
       <li>
@@ -49,9 +50,11 @@
       </li>
     </ul>
     <!-- Hidden if no completed items are left ↓ -->
-    <form class="form-clear-todos" action="/api/todo/clear-completed" method="post">
+    {{#completedTodosCount}}
+    <form action="/api/todo/clear-completed" method="post">
       <button class="clear-completed">Clear completed</button>
     </form>
+    {{/completedTodosCount}}
   </footer>
 </section>
 <footer class="info">

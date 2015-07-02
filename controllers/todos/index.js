@@ -9,15 +9,16 @@ module.exports = function (req, res, next) {
     var activeTodos = todos.filter(function (todo) {
       return !todo.completed;
     });
+    var completedTodos = todos.filter(function (todo) {
+      return todo.completed;
+    });
 
     switch (currentPath) {
       case 'active':
         todos = activeTodos;
         break;
       case 'completed':
-        todos = todos.filter(function (todo) {
-          return todo.completed;
-        });
+        todos = completedTodos;
         break;
     }
     res.viewModel = {
@@ -25,7 +26,8 @@ module.exports = function (req, res, next) {
         all: currentPath === '',
         active: currentPath === 'active',
         completed: currentPath === 'completed',
-        todosLeft: activeTodos.length,
+        activeTodosCount: activeTodos.length,
+        completedTodosCount: completedTodos.length,
         todos: todos
       }
     };

@@ -80,9 +80,10 @@ function setup(app) {
   }
 
   function completeTodo (req, res, next) {
+    var completed = req.body.completed === 'true';
     var todo = {
       id: req.params.id,
-      completed: !!req.body.completed
+      completed: !completed
     };
     todosService.complete(todo, handler);
 
