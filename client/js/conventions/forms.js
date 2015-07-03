@@ -6,7 +6,9 @@ var gradual = require('gradual');
 
 gradual.configure({
   taunus: taunus,
-  qs: function (form) { return {}; }
+  qs: function (form) {
+    return {};
+  }
 });
 
 function forms () {

@@ -1,4 +1,5 @@
 'use strict';
+var url = require('url');
 var taunus = require('taunus');
 var todosService = require('./services/todos');
 
@@ -33,9 +34,7 @@ function setup(app) {
       //   }]
       // });
 
-      taunus.redirect(req, res, '', {
-        force: true
-      });
+      redirect(req, res);
     }
   }
 
@@ -55,9 +54,7 @@ function setup(app) {
         model: todo
       };
 
-      taunus.redirect(req, res, '', {
-        force: true
-      });
+      redirect(req, res);
     }
   }
 
@@ -73,9 +70,7 @@ function setup(app) {
         model: todo
       };
 
-      taunus.redirect(req, res, '', {
-        force: true
-      });
+      redirect(req, res);
     }
   }
 
@@ -96,9 +91,7 @@ function setup(app) {
         model: todo
       };
 
-      taunus.redirect(req, res, '', {
-        force: true
-      });
+      redirect(req, res);
     }
   }
 
@@ -114,9 +107,7 @@ function setup(app) {
         model: todos
       };
 
-      taunus.redirect(req, res, '', {
-        force: true
-      });
+      redirect(req, res);
     }
   }
 
@@ -132,11 +123,16 @@ function setup(app) {
         model: todos
       };
 
-      taunus.redirect(req, res, '', {
-        force: true
-      });
+      redirect(req, res);
     }
   }
+}
+
+function redirect (req, res) {
+  var redirectTo = req.headers.referer ? url.parse(req.headers.referer).path : '';
+  taunus.redirect(req, res, redirectTo, {
+    force: true
+  });
 }
 
 module.exports = setup;

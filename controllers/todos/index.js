@@ -6,6 +6,10 @@ module.exports = function (req, res, next) {
   todosService.getAll(getAllHandler);
 
   function getAllHandler (err, todos) {
+    if (err) {
+      return next(err);
+    }
+
     var activeTodos = todos.filter(function (todo) {
       return !todo.completed;
     });
