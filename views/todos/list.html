@@ -1,0 +1,19 @@
+<!-- These are here just to show the structure of the list items -->
+<!-- List items should get the class `editing` when editing and `completed` when marked as completed -->
+{{#todos}}
+<li {{#completed}}class="completed"{{/completed}}>
+  <div class="view">
+    <form action="/api/todo/{{ id }}/complete" method="post">
+      <input name="completed" value="{{ completed }}" type="hidden">
+      <button class="toggle {{#completed}}checked{{/completed}}"></button>
+    </form>
+    <label>{{ title }}</label>
+    <form action="/api/todo/{{ id }}/remove" method="post">
+      <button class="destroy"></button>
+    </form>
+  </div>
+  <form action="/api/todo/{{ id }}/edit" method="post">
+    <input name="title" class="edit" value="{{ title }}">
+  </form>
+</li>
+{{/todos}}

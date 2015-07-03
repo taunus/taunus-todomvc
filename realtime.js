@@ -1,13 +1,11 @@
 'use strict';
 
-var socketIO = require('socket.io');
+var socket = require('socket.io');
 var io;
 
-function setup (server) {
+function realtime (server) {
   if (io) { return io; }
-  if (!server) { throw new Error('The `server` argument must be provided.'); }
-
-  io = socketIO(server);
+  io = realtime.io = addExceptMethod(socket(server));
   io.on('connection', connected);
   return io;
 
@@ -25,4 +23,26 @@ function setup (server) {
   }
 }
 
-module.exports = setup;
+function addExceptMethod (io) {
+  var sockets = io.sockets;
+  var _broadcast = sockets.adapter.broadcast;
+
+  sockets.constructor.prototype.except = except;
+  sockets.adapter.broadcast = broadcast;
+  return io;
+
+  function except (id) {
+    this.excepts = this.excepts || [];
+    this.excepts.push(id);
+    return this;
+  }
+  function broadcast (packet, options) {
+    if (sockets.excepts) {
+      options.except = sockets.excepts;
+    }
+    _broadcast.apply(this, arguments);
+    delete sockets.excepts;
+  }
+}
+
+module.exports = realtime;

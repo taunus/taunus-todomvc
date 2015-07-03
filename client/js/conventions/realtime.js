@@ -10,6 +10,10 @@ function setup () {
     revolve: revolve
   });
 
+  skyrocket.op('add', function (target, operation) {
+    return target + operation.value;
+  });
+
   gradual.on('data', skyrocket.react);
   io.on('/skyrocket/update', skyrocket.react);
 

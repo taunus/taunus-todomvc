@@ -4,7 +4,7 @@ var taunus = require('taunus');
 var todosService = require('./services/todos');
 
 function setup(app) {
-  var socket = require('./realtime')();
+  var socket = require('./realtime');
   app.post('/api/todo', createTodo);
   app.post('/api/todo/:id/edit', editTodo);
   app.post('/api/todo/:id/remove', removeTodo);
@@ -24,15 +24,21 @@ function setup(app) {
         model: todo
       };
 
-      // var room = '/api/todo';
-      // socket.to(room).emit('/skyrocket/update', {
-      //   updates: [{
-      //     rooms: [room],
-      //     concern: 'todos',
-      //     op: 'push',
-      //     model: todo
-      //   }]
-      // });
+      var room = '/todos';
+      socket.io.to(room).emit('/skyrocket/update', {
+        updates: [{
+          rooms: [room],
+          operations: [{
+            op: 'push',
+            model: todo,
+            concern: 'todos'
+          }, {
+            op: 'add',
+            value: 1,
+            concern: 'activeTodosCount'
+          }]
+        }]
+      });
 
       redirect(req, res);
     }
@@ -54,6 +60,19 @@ function setup(app) {
         model: todo
       };
 
+      var room = '/todos';
+      socket.io.to(room).emit('/skyrocket/update', {
+        updates: [{
+          rooms: [room],
+          operations: [{
+            op: 'edit',
+            model: todo,
+            concern: 'todos',
+            query: { id: todo.id }
+          }]
+        }]
+      });
+
       redirect(req, res);
     }
   }
@@ -69,6 +88,22 @@ function setup(app) {
       res.viewModel = {
         model: todo
       };
+
+      var room = '/todos';
+      socket.io.to(room).emit('/skyrocket/update', {
+        updates: [{
+          rooms: [room],
+          operations: [{
+            op: 'remove',
+            concern: 'todos',
+            query: { id: todo.id }
+          }, {
+            op: 'add',
+            value: -1,
+            concern: todo.completed ? 'completedTodosCount' : 'activeTodosCount'
+          }]
+        }]
+      });
 
       redirect(req, res);
     }
@@ -90,6 +125,19 @@ function setup(app) {
       res.viewModel = {
         model: todo
       };
+
+      var room = '/todos';
+      socket.io.to(room).emit('/skyrocket/update', {
+        updates: [{
+          rooms: [room],
+          operations: [{
+            op: 'edit',
+            model: todo,
+            concern: 'todos',
+            query: { id: todo.id }
+          }]
+        }]
+      });
 
       redirect(req, res);
     }
@@ -129,7 +177,7 @@ function setup(app) {
 }
 
 function redirect (req, res) {
-  var redirectTo = req.headers.referer ? url.parse(req.headers.referer).path : '';
+  var redirectTo = req.headers.referer ? url.parse(req.headers.referer).path : req.query.current_path;
   taunus.redirect(req, res, redirectTo, {
     force: true
   });

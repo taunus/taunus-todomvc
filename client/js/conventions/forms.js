@@ -7,7 +7,9 @@ var gradual = require('gradual');
 gradual.configure({
   taunus: taunus,
   qs: function (form) {
-    return {};
+    return {
+      current_path: window.location.pathname
+    };
   }
 });
 
