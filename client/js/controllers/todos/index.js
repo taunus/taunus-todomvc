@@ -27,10 +27,14 @@ function handleEditing (container) {
     event.stopPropagation();
     var li = $(this).off('dblclick').addClass('editing');
     var input = $.findOne('input.edit', li);
-    $(input).focus().on('esc', onEsc);
+    $(input).focus().on('esc', onEsc).on('click', onClick);
 
     function onEsc () {
       li.removeClass('editing');
+    }
+
+    function onClick (event) {
+      event.stopPropagation();
     }
   }
 }
