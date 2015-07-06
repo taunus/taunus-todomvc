@@ -26,6 +26,8 @@ function handleRealtime (container, viewModel, route) {
 
     taunus.partial(list, 'todos/list', viewModel);
     taunus.partial(footer, 'todos/footer', viewModel);
+
+    handleEditing(container);
   }
 }
 
