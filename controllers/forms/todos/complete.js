@@ -25,7 +25,7 @@ function completeTodo (req, res, next) {
       updates: [{
         rooms: [room],
         operations: [{
-          op: 'edit',
+          op: 'mark-completed',
           model: todo,
           concern: 'todos',
           query: { id: todo.id }

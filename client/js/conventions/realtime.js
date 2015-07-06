@@ -14,6 +14,26 @@ function setup () {
     return target + operation.value;
   });
 
+  skyrocket.op('mark-completed', function (target, operation) {
+    var found = target.some(function (todo, index) {
+      if (todo.id === operation.model.id) {
+        target[index] = operation.model;
+        return true;
+      }
+    });
+
+    if (!found) {
+      var currentPath = window.location.pathname.slice(1);
+      var insertTodo = (currentPath === 'active' && operation.model.completed === false) ||
+        (currentPath === 'completed' && operation.model.completed === true);
+      if (insertTodo) {
+        target.push(operation.model);
+      }
+    }
+
+    return target;
+  });
+
   gradual.on('data', skyrocket.react);
   io.on('/skyrocket/update', skyrocket.react);
 
