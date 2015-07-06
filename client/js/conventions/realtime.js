@@ -2,7 +2,7 @@
 
 var client = require('socket.io-client');
 var skyrocket = require('skyrocket');
-var gradual = require('gradual');
+var taunus = require('taunus');
 var io = client('');
 
 function setup () {
@@ -34,7 +34,7 @@ function setup () {
     return target;
   });
 
-  gradual.on('data', skyrocket.react);
+  taunus.gradual.on('data', skyrocket.react);
   io.on('/skyrocket/update', skyrocket.react);
 
   function revolve (type, rooms) {

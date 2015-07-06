@@ -15,6 +15,8 @@ function removeTodo (req, res, next) {
       model: todo
     };
 
+    redirect(req, res);
+
     var room = '/todos';
     socket.io.to(room).emit('/skyrocket/update', {
       updates: [{
@@ -30,8 +32,6 @@ function removeTodo (req, res, next) {
         }]
       }]
     });
-
-    redirect(req, res);
   }
 }
 

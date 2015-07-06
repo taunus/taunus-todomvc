@@ -15,6 +15,8 @@ function clearCompletedTodos (req, res, next) {
       model: todos
     };
 
+    redirect(req, res);
+
     var room = '/todos';
     socket.io.to(room).emit('/skyrocket/update', {
       updates: [{
@@ -25,8 +27,6 @@ function clearCompletedTodos (req, res, next) {
         }
       }]
     });
-
-    redirect(req, res);
   }
 }
 
