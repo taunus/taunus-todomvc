@@ -2,11 +2,15 @@
   "name": "taunus-todomvc",
   "version": "1.0.0",
   "description": "Taunus TodoMVC",
+  "engines": {
+    "node": "iojs-v2.3.3"
+  },
   "main": "app.js",
   "scripts": {
     "start": "build/prepare && node app.js",
     "dev": "build/development",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "preinstall": "npm install node-gyp-install && ./node_modules/node-gyp-install/bin.js"
   },
   "author": "JC Ivancevich <jc.ivancevich@gmail.com>",
   "license": "MIT",
