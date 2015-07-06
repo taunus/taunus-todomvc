@@ -3,11 +3,15 @@
 function filterTodos (model, currentPath, options) {
   options = options || {};
 
-  var activeTodos = model.todos.filter(function (todo) {
-    return !todo.completed;
-  });
-  var completedTodos = model.todos.filter(function (todo) {
-    return todo.completed;
+  var completedTodos = [];
+  var activeTodos = [];
+
+  model.todos.forEach(function (todo) {
+    if (todo.completed) {
+      completedTodos.push(todo);
+    } else {
+      activeTodos.push(todo);
+    }
   });
 
   if (options.counts) {
@@ -15,13 +19,10 @@ function filterTodos (model, currentPath, options) {
     model.completedTodosCount = completedTodos.length;
   }
 
-  switch (currentPath) {
-    case 'active':
-      model.todos = activeTodos;
-      break;
-    case 'completed':
-      model.todos = completedTodos;
-      break;
+  if (currentPath === 'completed') {
+    model.todos = completedTodos;
+  } else if (currentPath === 'active') {
+    model.todos = activeTodos;
   }
 }
 
