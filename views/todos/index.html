@@ -14,49 +14,12 @@
     </form>
     {{/completed}}
     <ul class="todo-list">
-      <!-- These are here just to show the structure of the list items -->
-      <!-- List items should get the class `editing` when editing and `completed` when marked as completed -->
-      {{#todos}}
-      <li {{#completed}}class="completed"{{/completed}}>
-        <div class="view">
-          <form action="/api/todo/{{ id }}/complete" method="post">
-            <input name="completed" value="{{ completed }}" type="hidden">
-            <button class="toggle {{#completed}}checked{{/completed}}"></button>
-          </form>
-          <label>{{ title }}</label>
-          <form action="/api/todo/{{ id }}/remove" method="post">
-            <button class="destroy"></button>
-          </form>
-        </div>
-        <form action="/api/todo/{{ id }}/edit" method="post">
-          <input name="title" class="edit" value="{{ title }}">
-        </form>
-      </li>
-      {{/todos}}
+      {{> list}}
     </ul>
   </section>
   <!-- This footer should hidden by default and shown when there are todos -->
   <footer class="footer">
-    <!-- This should be `0 items left` by default -->
-    <span class="todo-count"><strong>{{ activeTodosCount }}</strong> item left</span>
-    <!-- Remove this if you don't implement routing -->
-    <ul class="filters">
-      <li>
-        <a {{#all}}class="selected"{{/all}} href="/">All</a>
-      </li>
-      <li>
-        <a {{#active}}class="selected"{{/active}} href="/active">Active</a>
-      </li>
-      <li>
-        <a {{#completed}}class="selected"{{/completed}} href="/completed">Completed</a>
-      </li>
-    </ul>
-    <!-- Hidden if no completed items are left ↓ -->
-    {{#completedTodosCount}}
-    <form action="/api/todo/clear-completed" method="post">
-      <button class="clear-completed">Clear completed</button>
-    </form>
-    {{/completedTodosCount}}
+    {{> footer}}
   </footer>
 </section>
 <footer class="info">
