@@ -135,6 +135,14 @@ function setup(app) {
             model: todo,
             concern: 'todos',
             query: { id: todo.id }
+          }, {
+            op: 'add',
+            value: todo.completed ? -1 : 1,
+            concern: 'activeTodosCount'
+          }, {
+            op: 'add',
+            value: todo.completed ? 1 : -1,
+            concern: 'completedTodosCount'
           }]
         }]
       });
@@ -155,6 +163,17 @@ function setup(app) {
         model: todos
       };
 
+      var room = '/todos';
+      socket.io.to(room).emit('/skyrocket/update', {
+        updates: [{
+          rooms: [room],
+          model: {
+            todos: todos,
+            completedTodosCount: 0
+          }
+        }]
+      });
+
       redirect(req, res);
     }
   }
@@ -170,6 +189,18 @@ function setup(app) {
       res.viewModel = {
         model: todos
       };
+
+      var room = '/todos';
+      socket.io.to(room).emit('/skyrocket/update', {
+        updates: [{
+          rooms: [room],
+          model: {
+            todos: todos,
+            activeTodosCount: 0,
+            completedTodosCount: todos.length
+          }
+        }]
+      });
 
       redirect(req, res);
     }

@@ -13,13 +13,11 @@ var _todos = {
 };
 
 function getAll (callback) {
-  var todos = Object.keys(_todos).map(function (key) {
-    return _todos[key];
-  });
-  callback(null, todos);
+  callback(null, toArray(_todos));
 }
 
 function getOne (id, callback) {
+  if (!_todos[id]) { return callback(new Error('not_found')); }
   callback(null, _todos[id]);
 }
 
@@ -51,22 +49,26 @@ function remove (id, callback) {
 
 function clearCompleted (callback) {
   var todos = {};
-  Object.keys(_todos).map(function (key) {
-    return _todos[key];
-  }).filter(function (todo) {
+  toArray(_todos).filter(function (todo) {
     return !todo.completed;
   }).forEach(function (todo) {
     todos[todo.id] = todo;
   });
   _todos = todos;
-  callback(null, _todos);
+  callback(null, toArray(_todos));
 }
 
 function markAllCompleted (callback) {
   Object.keys(_todos).forEach(function (key) {
     _todos[key].completed = true;
   });
-  callback(null, _todos);
+  callback(null, toArray(_todos));
+}
+
+function toArray (todos) {
+  return Object.keys(todos).map(function (key) {
+    return todos[key];
+  });
 }
 
 module.exports = {
