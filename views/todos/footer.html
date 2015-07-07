@@ -1,6 +1,4 @@
-<!-- This should be `0 items left` by default -->
 <span class="todo-count"><strong>{{ activeTodosCount }}</strong> item left</span>
-<!-- Remove this if you don't implement routing -->
 <ul class="filters">
   <li>
     <a {{#all}}class="selected"{{/all}} href="/">All</a>
@@ -12,7 +10,6 @@
     <a {{#completed}}class="selected"{{/completed}} href="/completed">Completed</a>
   </li>
 </ul>
-<!-- Hidden if no completed items are left ↓ -->
 {{#completedTodosCount}}
 <form action="/api/todo/clear-completed" method="post">
   <button class="clear-completed">Clear completed</button>

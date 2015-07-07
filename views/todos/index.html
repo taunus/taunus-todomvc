@@ -5,7 +5,7 @@
       <input name="title" class="new-todo" placeholder="What needs to be done?" autofocus>
     </form>
   </header>
-  <!-- This section should be hidden by default and shown when there are todos -->
+  {{#todos.length}}
   <section class="main">
     {{^completed}}
     <form action="/api/todo/mark-all-completed" method="post">
@@ -17,14 +17,13 @@
       {{> list}}
     </ul>
   </section>
-  <!-- This footer should hidden by default and shown when there are todos -->
   <footer class="footer">
     {{> footer}}
   </footer>
+  {{/todos.length}}
 </section>
 <footer class="info">
   <p>Double-click to edit a todo</p>
-  <!-- Change this out with your name and url ↓ -->
-  <p>Created by <a href="https://github.com/ivancevich/taunus-todomvc">JC Ivancevich</a></p>
+  <p>Created by <a href="https://github.com/taunus/taunus-todomvc">JC Ivancevich</a></p>
   <p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
 </footer>
