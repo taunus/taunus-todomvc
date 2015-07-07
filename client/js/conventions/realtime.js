@@ -18,6 +18,7 @@ function disconnect () {
 
 function setup () {
   skyrocket.configure({
+    taunus: taunus,
     revolve: revolve
   });
 
@@ -45,7 +46,6 @@ function setup () {
     return target;
   });
 
-  taunus.gradual.on('data', skyrocket.react);
   io.on('/skyrocket/update', skyrocket.react);
 
   function revolve (type, rooms) {

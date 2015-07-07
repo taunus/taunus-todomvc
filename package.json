@@ -21,11 +21,11 @@
     "express": "^4.13.1",
     "hoganator": "^1.1.1",
     "serve-static": "^1.10.0",
-    "skyrocket": "^1.1.0",
+    "skyrocket": "^1.2.1",
     "socket.io": "^1.3.5",
     "socket.io-client": "^1.3.5",
     "superagent": "^1.2.0",
-    "taunus": "^7.0.0",
+    "taunus": "^7.1.0",
     "taunus-express": "^3.0.0",
     "todomvc-app-css": "^2.0.1",
     "todomvc-common": "^1.0.2"
