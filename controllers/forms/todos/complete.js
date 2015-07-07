@@ -1,7 +1,8 @@
 'use strict';
-var redirect = require('../redirect');
-var socket = require('../../../realtime');
+
 var todosService = require('../../../services/todos');
+var redirect = require('../redirect');
+var emit = require('../socket-emit');
 
 function completeTodo (req, res, next) {
   var completed = req.body.completed === 'true';
@@ -23,7 +24,7 @@ function completeTodo (req, res, next) {
     redirect(req, res);
 
     var room = '/todos';
-    socket.io.to(room).emit('/skyrocket/update', {
+    emit(req, room, {
       updates: [{
         rooms: [room],
         operations: [{

@@ -5,6 +5,17 @@ var skyrocket = require('skyrocket');
 var taunus = require('taunus');
 var io = client('');
 
+io.on('connect', connect);
+io.on('disconnect', disconnect);
+
+function connect () {
+  setup.id = io.io.engine.id;
+}
+
+function disconnect () {
+  setup.id = null;
+}
+
 function setup () {
   skyrocket.configure({
     revolve: revolve
