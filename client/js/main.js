@@ -2,9 +2,14 @@
 
 var $ = require('dominus');
 var taunus = require('taunus');
+var actions = require('taunus-actions');
 var wiring = require('../../.bin/wiring');
 var realtime = require('./conventions/realtime');
 var main = $.findOne('main');
+
+actions.configure({
+  taunus: taunus
+});
 
 realtime();
 

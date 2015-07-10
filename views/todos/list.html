@@ -1,5 +1,5 @@
 {{#todos}}
-<li {{#completed}}class="completed"{{/completed}}>
+<li {{#completed}}class="completed"{{/completed}} data-taunus-action="todos/item">
   <div class="view">
     <form action="/api/todo/{{ id }}/complete" method="post">
       <input name="completed" value="{{ completed }}" type="hidden">
