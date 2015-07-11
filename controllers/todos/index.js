@@ -16,6 +16,7 @@ module.exports = function (req, res, next) {
         all: currentPath === '',
         active: currentPath === 'active',
         completed: currentPath === 'completed',
+        todosCount: 0,
         activeTodosCount: 0,
         completedTodosCount: 0,
         todos: todos

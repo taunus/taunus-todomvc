@@ -5,7 +5,7 @@
       <input name="title" class="new-todo" placeholder="What needs to be done?" autofocus>
     </form>
   </header>
-  {{#todos.length}}
+  {{#todosCount}}
   <section class="main">
     {{^completed}}
     <form action="/api/todo/mark-all-completed" method="post">
@@ -20,7 +20,7 @@
   <footer class="footer">
     {{> footer}}
   </footer>
-  {{/todos.length}}
+  {{/todosCount}}
 </section>
 <footer class="info">
   <p>Double-click to edit a todo</p>

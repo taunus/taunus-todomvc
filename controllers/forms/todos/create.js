@@ -29,6 +29,10 @@ function createTodo (req, res, next) {
         }, {
           op: 'add',
           value: 1,
+          concern: 'todosCount'
+        }, {
+          op: 'add',
+          value: 1,
           concern: 'activeTodosCount'
         }]
       }]

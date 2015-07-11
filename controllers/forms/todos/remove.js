@@ -29,6 +29,10 @@ function removeTodo (req, res, next) {
         }, {
           op: 'add',
           value: -1,
+          concern: 'todosCount'
+        }, {
+          op: 'add',
+          value: -1,
           concern: todo.completed ? 'completedTodosCount' : 'activeTodosCount'
         }]
       }]

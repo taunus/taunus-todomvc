@@ -15,6 +15,7 @@ function filterTodos (model, currentPath, options) {
   });
 
   if (options.counts) {
+    model.todosCount = model.todos.length;
     model.activeTodosCount = activeTodos.length;
     model.completedTodosCount = completedTodos.length;
   }
